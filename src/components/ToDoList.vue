@@ -29,23 +29,36 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-const tasks = ref([])
-const newTask = ref("")
+interface Task {
+  id: number
+  title: string
+  completed: boolean
+}
 
+const tasks = ref<Task[]>([])
+const newTask = ref<string>('')
 
 onMounted(async () => {
   const res = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
-  tasks.value = await res.json()
+  const data = await res.json()
+  tasks.value = data.map((item: any) => ({
+    id: item.id,
+    title: item.title,
+    completed: item.completed,
+  })) as Task[]
 })
 
+function addTask(): void {
+  const title = newTask.value.trim()
+  if (!title) return
 
-function addTask() {
-  if (!newTask.value.trim()) return
-  tasks.value.unshift({
+  const newItem: Task = {
     id: Date.now(),
-    title: newTask.value,
-    completed: false
-  })
-  newTask.value = ""
+    title,
+    completed: false,
+  }
+
+  tasks.value.unshift(newItem)
+  newTask.value = ''
 }
 </script>
