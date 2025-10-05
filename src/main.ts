@@ -1,20 +1,21 @@
 // main.js
 import { createApp } from 'vue'
-import App from './App.vue'
-
-// Vuetify
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-// Pinia
 import { createPinia } from 'pinia'; 
+import App from './App.vue'
+import vuetify from './plugins/vuetify'
+
+// Шрифти
+import '@mdi/font/css/materialdesignicons.css'
+import 'roboto-fontface/css/roboto/roboto-fontface.css'
+
+// Стилі
+import './assets/main.scss'
+
 
 const app = createApp(App);
-const vuetify = createVuetify({
-  components,
-  directives,
-})
 const pinia = createPinia(); 
 
 
-app.use(vuetify).use(pinia).mount('#app');
+app.use(pinia);
+app.use(vuetify);
+app.mount('#app');

@@ -1,64 +1,40 @@
 <template>
-  <v-container class="py-5">
-    <v-card class="pa-4">
-      <v-card-title>📌 Todo List</v-card-title>
+  <v-container class="py-6">
+    <v-card class="pa-4 mx-auto" max-width="1024">
+      <v-card-title class="text-h6">
+        <v-icon left>mdi-format-list-bulleted</v-icon>
+        Список завдань
+      </v-card-title>
 
-      <v-text-field
-        v-model="newTask"
-        label="Нове завдання"
-        outlined
-        @keyup.enter="addTask"
-      />
-      <v-btn color="primary" class="mt-2" @click="addTask">Додати</v-btn>
+      <v-divider class="mb-4" />
+
+      <TodoToolbar />
 
       <v-list>
-        <v-list-item
-          v-for="task in tasks"
-          :key="task.id"
-        >
-          <v-checkbox
-            v-model="task.completed"
-            :label="task.title"
-          />
-        </v-list-item>
+        <TodoItem v-for="task in store.tasks" :key="task.id" :task="task" />
       </v-list>
+
+      <v-alert
+        v-if="!store.tasks.length"
+        type="info"
+        variant="outlined"
+        class="mt-4"
+      >
+        Список порожній. Додайте нове завдання!
+      </v-alert>
     </v-card>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
+import { useTodoStore } from '@/stores/todoStore'
+import TodoItem from './TodoItem.vue'
+import TodoToolbar from './TodoToolbar.vue'
 
-interface Task {
-  id: number
-  title: string
-  completed: boolean
-}
-
-const tasks = ref<Task[]>([])
-const newTask = ref<string>('')
+const store = useTodoStore()
 
 onMounted(async () => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
-  const data = await res.json()
-  tasks.value = data.map((item: any) => ({
-    id: item.id,
-    title: item.title,
-    completed: item.completed,
-  })) as Task[]
+  await store.fetchTasks()
 })
-
-function addTask(): void {
-  const title = newTask.value.trim()
-  if (!title) return
-
-  const newItem: Task = {
-    id: Date.now(),
-    title,
-    completed: false,
-  }
-
-  tasks.value.unshift(newItem)
-  newTask.value = ''
-}
 </script>
