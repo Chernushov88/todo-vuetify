@@ -1,0 +1,11 @@
+@use 'vuetify' with (
+  $body-font-family: 'Roboto, sans-serif',
+  $heading-font-family: 'Roboto, sans-serif'
+);
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  background-color: #f5f5f5;
+  font-family: 'Roboto', sans-serif;
+}
