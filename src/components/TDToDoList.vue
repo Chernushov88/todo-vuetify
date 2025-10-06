@@ -11,7 +11,7 @@
       <TodoToolbar />
 
       <v-list>
-        <TodoItem v-for="task in store.tasks" :key="task.id" :task="task" />
+        <TDTodoItem v-for="task in store.tasks" :key="task.id" :task="task" />
       </v-list>
 
       <v-alert
@@ -29,8 +29,8 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useTodoStore } from '@/stores/todoStore'
-import TodoItem from './TodoItem.vue'
-import TodoToolbar from './TodoToolbar.vue'
+import TDTodoItem from './TDTodoItem.vue'
+import TodoToolbar from './TDTodoToolbar.vue'
 
 const store = useTodoStore()
 
