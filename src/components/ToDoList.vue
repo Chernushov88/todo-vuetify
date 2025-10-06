@@ -3,7 +3,7 @@
     <v-card class="pa-4 mx-auto" max-width="1024">
       <v-card-title class="text-h6">
         <v-icon left>mdi-format-list-bulleted</v-icon>
-        Список завдань
+        Todo tasks
       </v-card-title>
 
       <v-divider class="mb-4" />
@@ -20,7 +20,7 @@
         variant="outlined"
         class="mt-4"
       >
-        Список порожній. Додайте нове завдання!
+        Todo tasks will appear here once added.
       </v-alert>
     </v-card>
   </v-container>
