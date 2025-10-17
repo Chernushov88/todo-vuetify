@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
         this.user = { username: credentials.username };
         router.push('/');
       } else {
-        this.error = 'Неправильне ім\'я користувача або пароль.';
+        this.error = 'Incorrect username or password.';
       }
       
       this.loading = false;
