@@ -108,7 +108,8 @@
               type="info"
               prominent
               color="blue-grey-lighten-5"
-              border="left"
+              border="start"
+              border-color="info"
               class="pa-4"
               elevation="0"
             >
