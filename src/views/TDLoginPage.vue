@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onUnmounted } from "vue";
 import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
@@ -60,6 +60,9 @@ const password = ref("");
 const handleLogin = async () => {
   await authStore.login({ username: username.value, password: password.value });
 };
+onUnmounted(() => {
+  authStore.clearError();
+});
 </script>
 
 <style scoped>

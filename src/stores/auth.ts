@@ -34,5 +34,9 @@ export const useAuthStore = defineStore('auth', {
       this.user = null;
       router.push('/login');
     },
+
+    clearError() {
+      this.error = null;
+    },
   },
 });
