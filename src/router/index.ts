@@ -1,42 +1,34 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import TodoView from '@/views/TDTodoView.vue';
-import ContactView from '@/views/TDContactView.vue';
 import { useAuthStore } from '@/stores/auth';
-import LoginPage from '@/views/TDLoginPage.vue';
-import ProfilePage from '@/views/TDProfilePage.vue';
-import RegisterPage from '@/views/TDRegisterPage.vue';
-
 
 const routes = [
   {
     path: '/login',
     name: 'login',
-    component: LoginPage,
+    component: () => import('@/views/LoginPage.vue'),
   },
   {
     path: '/register',
     name: 'register',
-    component: RegisterPage,
+    component: () => import('@/views/RegisterPage.vue'),
   },
   {
     path: '/',
     name: 'home',
-    component: () => ProfilePage,
+    component: () => import('@/views/TDProfilePage.vue'),
     meta: { requiresAuth: true },
   },  
   {
     path: '/todo', 
     name: 'Todo',
-    component: TodoView,
+    component: () => import('@/views/TodoView.vue'),
   },
   {
     path: '/contact', 
     name: 'Contact',
-    component: ContactView,
+    component: () => import('@/views/ContactView.vue'),
   },
 ];
-
-
 
 const router = createRouter({
   history: createWebHistory(), 
