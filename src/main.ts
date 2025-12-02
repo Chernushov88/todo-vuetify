@@ -12,10 +12,8 @@ import 'roboto-fontface/css/roboto/roboto-fontface.css'
 // Styles
 import './assets/main.scss'
 
-
 const app = createApp(App);
 const pinia = createPinia(); 
-
 
 app.use(router);
 app.use(pinia);

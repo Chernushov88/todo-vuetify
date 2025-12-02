@@ -14,7 +14,7 @@ const routes = [
     {
       path: '/',
       name: 'home',
-      component: () => ProfilePage, 
+      component: () => import('@/views/TDProfilePage.vue'),
       meta: { requiresAuth: true },
     },
   
