@@ -10,7 +10,7 @@
             prepend-icon="mdi-account"
             variant="underlined"
             required
-            :rules="[(v) => !!v || 'Enter username']"
+            :rules="[(v) => !!v || 'Enter username (test)']"
           ></v-text-field>
 
           <v-text-field
@@ -20,7 +20,7 @@
             type="password"
             variant="underlined"
             required
-            :rules="[(v) => !!v || 'Enter password']"
+            :rules="[(v) => !!v || 'Enter password (123)']"
           ></v-text-field>
 
           <v-alert
