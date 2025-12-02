@@ -4,20 +4,26 @@ import ContactView from '@/views/TDContactView.vue';
 import { useAuthStore } from '@/stores/auth';
 import LoginPage from '@/views/TDLoginPage.vue';
 import ProfilePage from '@/views/TDProfilePage.vue';
+import RegisterPage from '@/views/TDRegisterPage.vue';
+
 
 const routes = [
-    {
-      path: '/login',
-      name: 'login',
-      component: LoginPage,
-    },
-    {
-      path: '/',
-      name: 'home',
-      component: () => import('@/views/TDProfilePage.vue'),
-      meta: { requiresAuth: true },
-    },
-  
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage,
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterPage,
+  },
+  {
+    path: '/',
+    name: 'home',
+    component: () => ProfilePage,
+    meta: { requiresAuth: true },
+  },  
   {
     path: '/todo', 
     name: 'Todo',

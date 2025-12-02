@@ -1,10 +1,15 @@
 import { defineStore } from 'pinia';
 import router from '@/router'; 
 
+interface User {
+  username: string;
+  password: string;
+}
+
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     isAuthenticated: false as boolean,
-    user: null as { username: string } | null,
+    user: null as User | null,
     loading: false as boolean,
     error: null as string | null,
   }),
@@ -20,25 +25,73 @@ export const useAuthStore = defineStore('auth', {
         this.isAuthenticated = true
         this.user = JSON.parse(savedUser)
       }
+      this.initDefaultUser();
     },
-    async login(credentials: { username: string; password: string }) {
+    initDefaultUser() {
+      const usersStr = localStorage.getItem('users')
+      let users: User[] = usersStr ? JSON.parse(usersStr) : []
+
+      const testUser = users.find(u => u.username === 'test')
+      if(!testUser) {
+        users.push({username: 'test', password: '123' })
+        localStorage.setItem('users', JSON.stringify(users))
+      }
+    },
+    async login(credentials: User) {
       this.loading = true;
       this.error = null;
 
       await new Promise(resolve => setTimeout(resolve, 1000)); 
 
-      if (credentials.username === 'test' && credentials.password === '123') {
-        this.isAuthenticated = true;
-        this.user = { username: credentials.username };
+      const usersStr = localStorage.getItem('users');
+      const users: User[] = usersStr ? JSON.parse(usersStr) : [];
 
-        localStorage.setItem('auth', 'true')
-        localStorage.setItem('user', JSON.stringify(this.user))
+      const foundUser = users.find(u => {
+        return u.username === credentials.username && u.password == credentials.password
+      })
 
-        router.push('/');
-      } else {
+      if(!foundUser){
         this.error = 'Incorrect username or password.';
+        this.loading = false;
+        return
       }
-      
+
+      this.isAuthenticated = true;
+      this.user = foundUser
+
+      localStorage.setItem('auth', 'true')
+      localStorage.setItem('user', JSON.stringify(this.user))
+
+      router.push('/');
+      this.loading = false
+    },
+    async register(userData: User) {
+      this.loading = true;
+      this.error = null;
+
+      await new Promise(res => setTimeout(res, 600));
+
+      const usersStr = localStorage.getItem('users');
+      let users: User[] = usersStr ? JSON.parse(usersStr) : [];
+
+      const exists = users.some(u => u.username === userData.username);
+
+      if (exists) {
+        this.error = 'User with this username already exists.';
+        this.loading = false;
+        return;
+      }
+
+      users.push(userData);
+      localStorage.setItem('users', JSON.stringify(users));
+
+      this.isAuthenticated = true;
+      this.user = userData;
+
+      localStorage.setItem('auth', 'true');
+      localStorage.setItem('user', JSON.stringify(userData));
+
+      router.push('/');
       this.loading = false;
     },
 
