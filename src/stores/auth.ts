@@ -12,6 +12,15 @@ export const useAuthStore = defineStore('auth', {
     isLoggedIn: (state) => state.isAuthenticated,
   },
   actions: {
+    initializeAuth() {
+      const savedUser = localStorage.getItem('user')
+      const savedAuth = localStorage.getItem('auth')
+      
+      if(savedAuth === 'true' && savedUser){
+        this.isAuthenticated = true
+        this.user = JSON.parse(savedUser)
+      }
+    },
     async login(credentials: { username: string; password: string }) {
       this.loading = true;
       this.error = null;
@@ -21,6 +30,10 @@ export const useAuthStore = defineStore('auth', {
       if (credentials.username === 'test' && credentials.password === '123') {
         this.isAuthenticated = true;
         this.user = { username: credentials.username };
+
+        localStorage.setItem('auth', 'true')
+        localStorage.setItem('user', JSON.stringify(this.user))
+
         router.push('/');
       } else {
         this.error = 'Incorrect username or password.';
@@ -32,6 +45,9 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       this.isAuthenticated = false;
       this.user = null;
+
+      localStorage.removeItem('auth')
+      localStorage.removeItem('user')
       router.push('/login');
     },
 

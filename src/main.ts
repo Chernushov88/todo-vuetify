@@ -14,8 +14,12 @@ import './assets/main.scss'
 
 const app = createApp(App);
 const pinia = createPinia(); 
+app.use(pinia);
+
+import { useAuthStore } from './stores/auth';
+const authStore = useAuthStore();
+authStore.initializeAuth();
 
 app.use(router);
-app.use(pinia);
 app.use(vuetify);
 app.mount('#app');
